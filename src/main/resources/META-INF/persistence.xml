@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+
+    <persistence-unit name="argus_emf">
+
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <properties>
+            <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/postgres"/>
+            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+            <property name="hibernate.connection.username" value="postgres"/>
+            <property name="hibernate.connection.password" value="sopernik"/>
+
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL82Dialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.use_sql_comments" value="true"/>
+            <property name="hibernate.transaction.factory_class"
+                      value="org.hibernate.transaction.JTATransactionFactory"/>
+            <property name="hibernate.temp.use_jdbc_metadata_defaults" value="false"/>
+            <!--стратегия создания скриптов для create и drop-->
+            <!--<property name="javax.persistence.schema-generation.scripts.action" value="drop-and-create"/>-->
+            <!--стратегия создания БД-->
+            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+            <!--тип источника для create и drop-->
+            <property name="javax.persistence.schema-generation.create-source" value="metadata"/>
+            <!--файл для create-->
+            <!--<property name="javax.persistence.schema-generation.create-script-source" value="META-INF/create.sql"/>-->
+            <!--файл для заполнения данными-->
+            <property name="javax.persistence.sql-load-script-source" value="META-INF/data.sql"/>
+
+            <!--Где создать create и drop скрипты-->
+            <property name="javax.persistence.schema-generation.scripts.create-target" value="META-INF/create.sql"/>
+            <property name="javax.persistence.schema-generation.scripts.drop-target" value="META-INF/drop.sql"/>
+        </properties>
+
+    </persistence-unit>
+</persistence>
