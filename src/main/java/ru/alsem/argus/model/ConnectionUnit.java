@@ -2,8 +2,6 @@ package ru.alsem.argus.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by SMertNIK on 26.06.2017.
@@ -26,9 +24,6 @@ public class ConnectionUnit {
     @JoinColumn(name = "NODE_ID")
     private AccessNode node;
 
-    @OneToMany(mappedBy = "unit", cascade = CascadeType.ALL)
-    private List<ConnectionPoint> points = new ArrayList<ConnectionPoint>();
-
     public ConnectionUnit() {
     }
 
@@ -37,24 +32,6 @@ public class ConnectionUnit {
         this.capacity = capacity;
     }
 //TODO: подумать над ограничением capacity
-
-    public void addPoint(final ConnectionPoint... points) {
-        for (ConnectionPoint point : points) {
-            if (capacity == getPoints().size()) {
-                System.out.println("You cannot add more points, the Unit is full");
-                return;
-            }
-            getPoints().add(point);
-            point.setUnit(this);
-        }
-    }
-
-    public void removePoint(final ConnectionPoint... points) {
-        for (ConnectionPoint point : points) {
-            getPoints().remove(point);
-            point.setUnit(null);
-        }
-    }
 
     public AccessNode getNode() {
         return node;
@@ -78,14 +55,6 @@ public class ConnectionUnit {
 
     public void setCapacity(int capacity) {
         this.capacity = capacity;
-    }
-
-    public List<ConnectionPoint> getPoints() {
-        return points;
-    }
-
-    public void setPoints(List<ConnectionPoint> points) {
-        this.points = points;
     }
 
     public int getCuId() {
