@@ -7,7 +7,7 @@ import java.text.MessageFormat;
  * Created by SMertNIK on 26.06.2017.
  */
 @Entity
-@Table(name = "LINKS")
+@Table(name = "LINKS", schema = "public")
 public class ConnectionLink {
 
     @Id
@@ -18,54 +18,56 @@ public class ConnectionLink {
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "connectionUnit", column = @Column(name = "SOURCE_UNIT_ID")),
-            @AttributeOverride(name = "connectionPoint", column = @Column(name = "SOURCE_POINT_INDEX"))
+            @AttributeOverride(name="accessNode",column = @Column(name = "SOURCE_NODE_ID")),
+            @AttributeOverride(name = "connectionUnitIndex", column = @Column(name = "SOURCE_UNIT_INDEX")),
+            @AttributeOverride(name = "connectionPointIndex", column = @Column(name = "SOURCE_POINT_INDEX"))
     })
-    private ConnectionPointIdentifier fromPointLink;
+    private ConnectionPortIdentifier fromPortLink;
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "connectionUnit", column = @Column(name = "DEST_UNIT_ID")),
-            @AttributeOverride(name = "connectionPoint", column = @Column(name = "DEST_POINT_INDEX"))
+            @AttributeOverride(name = "accessNode", column = @Column(name = "DEST_NODE_ID")),
+            @AttributeOverride(name = "connectionUnitIndex", column = @Column(name = "DEST_UNIT_INDEX")),
+            @AttributeOverride(name = "connectionPointIndex", column = @Column(name = "DEST_POINT_INDEX"))
     })
-    private ConnectionPointIdentifier toPointLink;
+    private ConnectionPortIdentifier toPortLink;
 
-    public ConnectionLink(ConnectionPointIdentifier fromPointLink, ConnectionPointIdentifier toPointLink) {
-        this.fromPointLink = fromPointLink;
-        this.toPointLink = toPointLink;
+    public ConnectionLink(ConnectionPortIdentifier fromPointLink, ConnectionPortIdentifier toPointLink) {
+        this.fromPortLink = fromPointLink;
+        this.toPortLink = toPointLink;
     }
 
     public ConnectionLink() {
 
     }
 
-    public ConnectionPointIdentifier getFromPointLink() {
-        return fromPointLink;
+    public ConnectionPortIdentifier getFromPortLink() {
+        return fromPortLink;
     }
 
-    public void setFromPointLink(ConnectionPointIdentifier sourcePointLink) {
-        this.fromPointLink = sourcePointLink;
+    public void setFromPortLink(ConnectionPortIdentifier sourcePointLink) {
+        this.fromPortLink = sourcePointLink;
     }
 
-    public ConnectionPointIdentifier getToPointLink() {
-        return toPointLink;
+    public ConnectionPortIdentifier getToPortLink() {
+        return toPortLink;
     }
 
-    public void setToPointLink(ConnectionPointIdentifier destinationPointLink) {
-        this.toPointLink = destinationPointLink;
+    public void setToPortLink(ConnectionPortIdentifier destinationPointLink) {
+        this.toPortLink = destinationPointLink;
     }
 
     @Override
     public String toString() {
         return "ConnectionLink{" +
                 "linkId=" + linkId +
-                ", fromPointLink=" + fromPointLink +
-                ", toPointLink=" + toPointLink +
+                ", fromPointLink=" + fromPortLink +
+                ", toPointLink=" + toPortLink +
                 '}';
     }
 
     public String stringValue() {
-        return MessageFormat.format("link {0}: {1} - {2}",getLinkId(),fromPointLink.stringValue(),toPointLink.stringValue());
+        return MessageFormat.format("Связь {0}: {1} - {2}",getLinkId(), fromPortLink.stringValue(), toPortLink.stringValue());
     }
 
     public int getLinkId() {

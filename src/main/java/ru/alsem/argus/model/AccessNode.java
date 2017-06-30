@@ -9,19 +9,21 @@ import java.util.List;
  * Created by SMertNIK on 26.06.2017.
  */
 @Entity
-@Table(name = "NODE")
+@Table(name = "NODE", schema = "public")
+@NamedQuery(name = "findAllNodes", query = AccessNode.FIND_ALL)
 public class AccessNode {
 
+    public static final String FIND_ALL = "SELECT n FROM AccessNode n ORDER BY n.node_id DESC";
     @Id
     @SequenceGenerator(name = "node_sequence", sequenceName = "node_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "node_sequence")
     @Column(name = "NODE_ID", insertable = false, unique = true, updatable = false)
     @Access(AccessType.FIELD)
-    private Integer id;
+    private Integer node_id;
 
     @NotNull
     private String name;
-
+//TODO: можно также хранить данные о локации с помощью @SecondaryTable
     @Embedded
     private AccessNodeLocation nodeLocation;
 
@@ -71,11 +73,11 @@ public class AccessNode {
         this.name = name;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getNode_id() {
+        return node_id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setNode_id(Integer id) {
+        this.node_id = id;
     }
 }
