@@ -1,19 +1,13 @@
 package ru.alsem.argus.model;
 
-import ru.alsem.argus.listeners.CapacityValidationListener;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
- * Created by SMertNIK on 26.06.2017.
+ * Сущность "Коннектор". Включается в узел доступа
  */
 @Entity
 @Table(name = "UNIT", schema = "public")
-@EntityListeners(CapacityValidationListener.class)
 public class ConnectionUnit {
 
     @Id
@@ -27,17 +21,16 @@ public class ConnectionUnit {
     private int unitNumber;
 
     @NotNull
+    @Column(name = "NAME", nullable = false)
     private String name;
 
     @NotNull
+    @Column(name = "CAPACITY", nullable = false)
     private int capacity;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "NODE_ID")
     private AccessNode node;
-
-    @OneToMany(mappedBy = "unit", cascade = CascadeType.ALL)
-    private List<ConnectionPoint> connectionPoints = new ArrayList<ConnectionPoint>(capacity);
 
     public ConnectionUnit() {
     }
@@ -46,14 +39,6 @@ public class ConnectionUnit {
         this.unitNumber = unitNumber;
         this.name = connectionUnitName;
         this.capacity = capacity;
-    }
-
-    public List<ConnectionPoint> getConnectionPoints() {
-        return connectionPoints;
-    }
-
-    public void setConnectionPoints(List<ConnectionPoint> connectionPoints) {
-        this.connectionPoints = connectionPoints;
     }
 
     public int getUnitNumber() {
@@ -97,21 +82,28 @@ public class ConnectionUnit {
         this.cuId = cuId;
     }
 
-    public void addPoint(ConnectionPoint... connectionPoint) {
-        for (ConnectionPoint point :
-                connectionPoint) {
-            connectionPoints.add(point);
-            point.setUnit(this);
-        }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ConnectionUnit)) return false;
+
+        ConnectionUnit that = (ConnectionUnit) o;
+
+        if (cuId != that.cuId) return false;
+        if (unitNumber != that.unitNumber) return false;
+        if (capacity != that.capacity) return false;
+        if (!name.equals(that.name)) return false;
+        return node != null ? node.equals(that.node) : that.node == null;
+
     }
 
-    public void removePoint(ConnectionPoint... connectionPoint) {
-        for (ConnectionPoint point :
-                connectionPoint) {
-            getConnectionPoints().remove(point);
-            point.setUnit(null);
-        }
+    @Override
+    public int hashCode() {
+        int result = cuId;
+        result = 31 * result + unitNumber;
+        result = 31 * result + name.hashCode();
+        result = 31 * result + capacity;
+        result = 31 * result + (node != null ? node.hashCode() : 0);
+        return result;
     }
-
-
 }

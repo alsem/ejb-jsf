@@ -4,10 +4,19 @@ import javax.persistence.*;
 import java.text.MessageFormat;
 
 /**
- * Created by SMertNIK on 26.06.2017.
+ * Сущность "Связь" определяется двумя точками соединения. Точки соединения {@link #fromPortLink} и {@link #toPortLink}
+ * определяеются как #Узел,#Коннектор,#Точка.
+ *
+ * @see ru.alsem.argus.model.ConnectionPortIdentifier
  */
 @Entity
-@Table(name = "LINKS", schema = "public")
+@Table(name = "LINKS", schema = "public", indexes = {
+        @Index(name = "cp_index", unique = true, columnList = "SOURCE_NODE_ID, SOURCE_UNIT_INDEX, SOURCE_POINT_INDEX")})
+@NamedQueries({
+        @NamedQuery(name = "ConnectionLink.occupiedLinks", query = "SELECT COUNT(l) FROM ConnectionLink l WHERE l.fromPortLink.accessNode = ?1"),
+        @NamedQuery(name = "ConnectionLink.findAllLinksForNode", query = "SELECT l FROM ConnectionLink l WHERE l.fromPortLink.accessNode = ?1")
+})
+
 public class ConnectionLink {
 
     @Id
@@ -18,7 +27,7 @@ public class ConnectionLink {
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name="accessNode",column = @Column(name = "SOURCE_NODE_ID")),
+            @AttributeOverride(name = "accessNode", column = @Column(name = "SOURCE_NODE_ID")),
             @AttributeOverride(name = "connectionUnitIndex", column = @Column(name = "SOURCE_UNIT_INDEX")),
             @AttributeOverride(name = "connectionPointIndex", column = @Column(name = "SOURCE_POINT_INDEX"))
     })
@@ -67,7 +76,7 @@ public class ConnectionLink {
     }
 
     public String stringValue() {
-        return MessageFormat.format("Связь {0}: {1} - {2}",getLinkId(), fromPortLink.stringValue(), toPortLink.stringValue());
+        return MessageFormat.format("Связь {0}: {1} - {2}", getLinkId(), fromPortLink.stringValue(), toPortLink.stringValue());
     }
 
     public int getLinkId() {

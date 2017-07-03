@@ -6,24 +6,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by SMertNIK on 26.06.2017.
+ * Сущность "Узел доступа". Содержит Коннекторы
  */
 @Entity
 @Table(name = "NODE", schema = "public")
-@NamedQuery(name = "findAllNodes", query = AccessNode.FIND_ALL)
+@NamedQueries({
+
+        @NamedQuery(name = "AccessNode.findAllNodes", query = "SELECT n FROM AccessNode n ORDER BY n.node_id"),
+        @NamedQuery(name = "AccessNode.totalPoints", query = "SELECT SUM(n.capacity) FROM ConnectionUnit n WHERE n.node.node_id = ?1"),
+
+})
 public class AccessNode {
 
-    public static final String FIND_ALL = "SELECT n FROM AccessNode n ORDER BY n.node_id DESC";
     @Id
     @SequenceGenerator(name = "node_sequence", sequenceName = "node_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "node_sequence")
     @Column(name = "NODE_ID", insertable = false, unique = true, updatable = false)
-    @Access(AccessType.FIELD)
     private Integer node_id;
 
     @NotNull
+    @Column(name = "name", nullable = false)
     private String name;
-//TODO: можно также хранить данные о локации с помощью @SecondaryTable
+    //TODO: можно также хранить данные о локации с помощью @SecondaryTable
     @Embedded
     private AccessNodeLocation nodeLocation;
 
@@ -79,5 +83,26 @@ public class AccessNode {
 
     public void setNode_id(Integer id) {
         this.node_id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AccessNode)) return false;
+
+        AccessNode that = (AccessNode) o;
+
+        if (!node_id.equals(that.node_id)) return false;
+        if (!name.equals(that.name)) return false;
+        return nodeLocation.equals(that.nodeLocation);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = node_id.hashCode();
+        result = 31 * result + name.hashCode();
+        result = 31 * result + nodeLocation.hashCode();
+        return result;
     }
 }

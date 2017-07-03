@@ -3,9 +3,6 @@ package ru.alsem.argus.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-/**
- * Created by SMertNIK on 29.06.2017.
- */
 @Entity
 @Table(name = "UNIT_POINTS", schema ="public")
 public class ConnectionPoint {

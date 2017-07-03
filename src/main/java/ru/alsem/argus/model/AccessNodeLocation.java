@@ -1,21 +1,22 @@
 package ru.alsem.argus.model;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
 
 /**
- * Created by SMertNIK on 27.06.2017.
+ * Физическое расположение узла. Встраиваемый класс.
  */
 @Embeddable
-@Access(AccessType.FIELD)
 public class AccessNodeLocation {
     @NotNull
+    @Column(name = "region", nullable = false)
     private String region;
     @NotNull
+    @Column(name = "houseNumber", nullable = false)
     private String houseNumber;
     @NotNull
+    @Column(name = "street", nullable = false)
     private String street;
 
     public AccessNodeLocation() {
