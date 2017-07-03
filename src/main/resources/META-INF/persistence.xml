@@ -8,26 +8,15 @@
             <property name="tomee.jpa.factory.lazy" value="true"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL95Dialect"/>
             <property name="hibernate.hbm2ddl.auto" value="create"/>
-            <!--<property name="hibernate.default_schema" value="public"/>-->
-
             <property name="hibernate.temp.use_jdbc_metadata_defaults" value="false"/>
             <property name="hibernate.show_sql" value="true"/>
-            <!--<property name="hibernate.format_sql" value="true"/>-->
-            <!--стратегия создания скриптов для create и drop-->
-            <!--<property name="javax.persistence.schema-generation.scripts.action" value="drop-and-create"/>-->
             <!--стратегия создания БД-->
             <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
-            <!--тип источника для create и drop-->
+            <!--тип источника для create-->
             <property name="javax.persistence.schema-generation.create-source" value="script"/>
             <!--файл для create-->
             <property name="javax.persistence.schema-generation.create-script-source" value="data.sql"/>
-            <!--файл для заполнения данными-->
-            <!--<property name="javax.persistence.sql-load-script-source" value="data.sql"/>-->
 
-            <!--Где создать create и drop скрипты-->
-            <property name="javax.persistence.schema-generation.scripts.create-target" value="META-INF/create.sql"/>
-            <property name="javax.persistence.schema-generation.scripts.drop-target" value="META-INF/drop.sql"/>
-            <!--<property name="javax.persistence.schema-generation.scripts.action" value="drop-and-create"/>-->
         </properties>
 
     </persistence-unit>
