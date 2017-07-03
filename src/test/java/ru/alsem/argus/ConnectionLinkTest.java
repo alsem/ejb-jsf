@@ -13,10 +13,8 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.equalToIgnoringCase;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
-/**
- * Created by SMertNIK on 28.06.2017.
- */
 public class ConnectionLinkTest extends EntityTest {
     private ConnectionUnit unitOfFirstNode;
     private ConnectionUnit unitOfSecondNode;
@@ -60,7 +58,7 @@ public class ConnectionLinkTest extends EntityTest {
         tx.begin();
         em.persist(link);
         tx.commit();
-        assertEquals(link.getLinkId(), 1);
+        assertNotNull(link.getLinkId());
 
         assertThat(link.getFromPortLink().getAccessNode(), is(equalTo(1)));
         assertThat(link.getToPortLink().getAccessNode(), is(equalTo(2)));
@@ -78,8 +76,4 @@ public class ConnectionLinkTest extends EntityTest {
         assertThat(link.stringValue(),equalToIgnoringCase("Связь 0: 1.2 - 2.1"));
     }
 
-    @Test
-    public void shouldCreateDummyData() {
-        assertEquals(1,1);
-    }
 }

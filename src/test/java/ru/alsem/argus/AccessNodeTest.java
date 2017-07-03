@@ -1,12 +1,16 @@
 package ru.alsem.argus;
 
+import org.junit.Assert;
 import org.junit.Test;
 import ru.alsem.argus.model.AccessNode;
 import ru.alsem.argus.model.AccessNodeLocation;
 import ru.alsem.argus.model.ConnectionUnit;
 
+import javax.persistence.Query;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 /**
@@ -53,4 +57,12 @@ public class AccessNodeTest extends EntityTest {
         assertNotNull("ID should not be null", node.getNode_id());
         assertNotNull(node.getNodeLocation());
     }
+
+    @Test
+    public void shouldGetTotalCOuntOfPointsWithinNode() {
+        AccessNode node = em.find(AccessNode.class, 1);
+        Query query = em.createNamedQuery("AccessNode.totalPoints").setParameter(1, node.getNode_id());
+        Assert.assertThat(query.getSingleResult( ), is(equalTo(33L)));
+    }
+
 }
