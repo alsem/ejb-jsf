@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core"
+>
+<ui:composition template="WEB-INF/template.xhtml">
+    <ui:define
+            name="title">Выбран узел #{nodeBean.selectedRow.name} (id ##{nodeBean.selectedRow.id})</ui:define>
+    <ui:define name="content">
+        <h:form>
+            <p:commandButton value="Назад" onclick="window.history.back();"/>
+            <p:dataTable id="links" value="#{nodeBean.linkList}" var="link" sortBy="#{link.linkId}">
+                <p:columnGroup type="header">
+                    <p:row>
+                        <p:column colspan="1" rowspan="2" headerText="№ Связи"/>
+                        <p:column colspan="3" headerText="Выбранный узел #{nodeBean.selectedRow.name}"/>
+                        <p:column colspan="3" headerText="Связанный узел"/>
+                    </p:row>
+                    <p:row>
+                        <p:column headerText="№ Узла"/>
+                        <p:column headerText="№ Коннектора"/>
+                        <p:column headerText="№ Точки"/>
+                        <p:column headerText="№ Узла"/>
+                        <p:column headerText="№ Коннектора"/>
+                        <p:column headerText="№ Точки"/>
+                    </p:row>
+                </p:columnGroup>
+                <p:column>#{link.linkId}</p:column>
+                <p:column>#{link.nodeId}</p:column>
+                <p:column>#{link.unitIndex}</p:column>
+                <p:column>#{link.pointIndex}</p:column>
+                <p:column>#{link.toNodeId}</p:column>
+                <p:column>#{link.toUnitIndex}</p:column>
+                <p:column>#{link.toPointIndex}</p:column>
+                <f:facet name="footer">
+                    #{nodeBean.selectedRow.region}, #{nodeBean.selectedRow.street} #{nodeBean.selectedRow.house}
+                </f:facet>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>

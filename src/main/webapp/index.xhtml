@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+>
+<ui:composition template="WEB-INF/template.xhtml">
+    <ui:define name="title">Список всех узлов</ui:define>
+    <ui:define name="content">
+        <h:form>
+            <p:dataTable id="nodeTable" var="node" value="#{nodeBean.nodeInfoRows}" selectionMode="single"
+                         selection="#{nodeBean.selectedRow}" rowKey="#{node.id}" sortBy="#{node.id}">
+                <p:columnGroup type="header">
+                    <p:row>
+                        <p:column colspan="1" rowspan="2" headerText="#id" style="width: 3em;"/>
+                        <p:column colspan="1" rowspan="2" headerText="Имя узла"/>
+                        <p:column colspan="3" rowspan="1" headerText="Расположение"/>
+                        <p:column colspan="2" rowspan="1" headerText="Точки"/>
+                    </p:row>
+                    <p:row>
+                        <p:column headerText="Регион"/>
+                        <p:column headerText="Улица"/>
+                        <p:column headerText="Дом"/>
+                        <p:column headerText="Всего"/>
+                        <p:column headerText="Свободно"/>
+                    </p:row>
+                </p:columnGroup>
+                <p:column>#{node.id}</p:column>
+                <p:column>#{node.name}</p:column>
+                <p:column>#{node.region}</p:column>
+                <p:column>#{node.street}</p:column>
+                <p:column>#{node.house}</p:column>
+                <p:column>#{node.pointsTotal}</p:column>
+                <p:column>#{node.pointsFree}</p:column>
+                <f:facet name="footer">
+                    <p:commandButton id="showLinks" value="ПОКАЗАТЬ СВЯЗИ" action="#{nodeBean.viewLinks}" ajax="false"
+                                     update="msg"
+                                     icon="ui-icon-search"/>
+                    <!--<p:message id="msg" for="showLinks" severity="info,warn" showDetail="true"/>-->
+                </f:facet>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>
